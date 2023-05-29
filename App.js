@@ -1,7 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Task from './components/Task';
+
 export default function App() {
 
   const [tasks, setTasks] = useState([]);
@@ -19,10 +21,23 @@ export default function App() {
   );
 }
 
+async function saveTaskData(taskData) {
+  try {
+    await AsyncStorage.setItem('taskData', JSON.stringify(taskData));
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+async function retrieveTaskData() {
+  const taskData = await AsyncStorage.getItem('taskData');
+  return JSON.parse(taskData);
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#8be9a2de',
+    backgroundColor: '#a2b2c2',
   },
 
   title: {
