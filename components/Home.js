@@ -10,7 +10,7 @@ const Home = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style = {styles.taskWrapper}>
-      <Text style={styles.title}>Todays Tasks :</Text>
+      <Text style={styles.title}>Scheduled Tasks :</Text>
         <View style={styles.items}>
           <Task task={{taskTitle:'hello', description:'lorem ipsum', time: Date.now()}} />
           <Task task={{taskTitle:'hello', description:'lorem ipsum', time: Date.now()}} />
@@ -42,7 +42,7 @@ async function retrieveTaskData() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#a2b2c2',
+    // backgroundColor: '#a2b2c2',
   },
 
   title: {
@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
   button: {
     flex: 1,
     justifyContent: 'flex-end',
+    marginBottom:10
   },
 });
 

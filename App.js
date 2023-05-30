@@ -18,8 +18,8 @@ export default function App() {
 
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="AddTask" component={AddTask} />
+        <Stack.Screen name="Home" component={Home} options={{ title: 'Reminders' }} />
+        <Stack.Screen name="AddTask" component={AddTask} options={{ title: 'Add New Task' }} />
       </Stack.Navigator>
     </NavigationContainer>
 
