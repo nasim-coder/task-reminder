@@ -21,15 +21,17 @@ const Task = (props) => {
 
 const styles = StyleSheet.create({
     taskContainer: {
-        margin: 5,
+        marginTop: 5,
+        marginBottom:5,
         flexDirection: 'row',
         borderColor: 'black',
         borderWidth: 1,
         padding: 10,
-        backgroundColor: '#88b9eb'
+        backgroundColor: '#88b9eb',
+        justifyContent: 'space-between',
     },
     taskItem: {
-        marginHorizontal:5,
+        marginHorizontal:2,
     }
 })
 

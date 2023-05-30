@@ -15,13 +15,11 @@ const Stack = createStackNavigator();
 export default function App() {
 
   return (
-
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Home" component={Home} options={{ title: 'Reminders' }} />
         <Stack.Screen name="AddTask" component={AddTask} options={{ title: 'Add New Task' }} />
       </Stack.Navigator>
     </NavigationContainer>
-
   )
 };

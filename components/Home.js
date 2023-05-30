@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     // backgroundColor: '#a2b2c2',
+    padding:16
   },
 
   title: {
@@ -55,8 +56,7 @@ const styles = StyleSheet.create({
   },
 
   taskWrapper: {
-    paddingTop: 40,
-    marginHorizontal: 20,
+    paddingTop: 15,
   },
   button: {
     flex: 1,
