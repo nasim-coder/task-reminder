@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, TextInput, SafeAreaView, Button, ToastAndroid } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, SafeAreaView, Button, ToastAndroid, StyleSheet } from 'react-native';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Checkbox from 'expo-checkbox';
 const AddTask = () => {
@@ -13,10 +13,6 @@ const AddTask = () => {
     // Code to save the reminder
     ToastAndroid.show('Reminder saved!', ToastAndroid.SHORT);
   };
-
-  // const handleGoBack = () => {
-  //   navigation.goBack();
-  // };
 
   const handleConfirm = (date) => {
     console.log("A date has been picked: ", date);
@@ -34,17 +30,18 @@ const AddTask = () => {
 
   return (
     <View>
-      <TextInput style={{ height: 40 }}
+      <TextInput style={styles.input}
         placeholder="Task to do"
         onChangeText={newText => setTask(newText)}
-        defaultValue={'text'} />
+        maxLength={50}
+        defaultValue={''} />
 
       <TextInput
-        style={{ height: 40 }}
+        style={styles.input}
         placeholder="Add note"
         editable
         multiline
-        numberOfLines={4}
+        numberOfLines={3}
         onChange={(text) => setTaskNote(text)}
         maxLength={50} />
 
@@ -68,5 +65,15 @@ const AddTask = () => {
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  input: {
+    borderWidth: 1,
+    borderColor: 'black',
+    padding: 10,
+    
+    margin:5
+  }
+})
 
 export default AddTask;

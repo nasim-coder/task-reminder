@@ -16,8 +16,11 @@ const Home = ({ navigation }) => {
           <Task task={{taskTitle:'hello', description:'lorem ipsum', time: Date.now()}} />
         </View>
       </View>
-      <View>
-        <Button title = 'Add New Reminder' onPress={handleAddReminder}></Button>
+      <View style={styles.button}>
+        <Button
+          title='Add New Reminder'
+          onPress={handleAddReminder}
+        />
       </View>
     </View>
   );
@@ -54,6 +57,10 @@ const styles = StyleSheet.create({
   taskWrapper: {
     paddingTop: 40,
     marginHorizontal: 20,
+  },
+  button: {
+    flex: 1,
+    justifyContent: 'flex-end',
   },
 });
 
