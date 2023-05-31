@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { View, Modal, Text, TouchableOpacity, TextInput, SafeAreaView, Button, ToastAndroid, StyleSheet } from 'react-native';
+import { View, Modal, Text, TouchableOpacity, TextInput, SafeAreaView, Button, ToastAndroid, StyleSheet, Alert } from 'react-native';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-
+import { saveReminder } from './ReminderService';
 // import Checkbox from 'expo-checkbox';
 import { RadioButton, Checkbox } from 'react-native-paper';
 
 const AddTask = () => {
+
   const [time, setTime] = useState(new Date());
+  const [isTimeSelectedByUser, setIsTimeSelectedByUser] = useState(false);
   const [date, setDate] = useState(new Date());
   const [task, setTask] = useState('');
   const [taskNote, setTaskNote] = useState('');
@@ -16,14 +18,40 @@ const AddTask = () => {
   const [selectedDays, setSelectedDays] = useState([]);
   const [frequency, setFrequency] = useState('daily');
 
+
+  const newTask = {
+    id: new Date().getTime(),
+    task,
+    taskNote,
+    time,
+    date,
+    frequency,
+    selectedDays,
+}
+
+
   const handleSaveReminder = () => {
-    // Code to save the reminder
-    ToastAndroid.show('Reminder saved!', ToastAndroid.SHORT);
+    try {
+      
+      if (!isTimeSelectedByUser) {
+        Alert.alert('COULD NOT BE SAVED','Please select time',[ {text: 'OK'}], {cancelable: false});
+      }else if (isTimeSelectedByUser) {
+        const saved = saveReminder(newTask);
+        ToastAndroid.show('Reminder saved Successfully!', ToastAndroid.LONG);
+      } else {
+        Alert.alert('COULD NOT BE SAVED','something went wrong',[ {text: 'OK'}], {cancelable: false});
+      }
+      
+    } catch (err) {
+      console.log(err);
+      Alert.alert('COULD NOT BE SAVED', err.message, [ {text: 'OK'}], {cancelable: false});
+    }
   };
 
-  const handleConfirm = (time) => {
+  const handleTimeConfirm = (time) => {
     console.log("A date has been picked: ", time);
-    setTime(time)
+    setIsTimeSelectedByUser(true);
+    setTime(time);
     hideTimePicker();
   };
 
@@ -44,10 +72,6 @@ const AddTask = () => {
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
   };
-
-  // const showDatePicker = () => {
-  //   setDatePickerVisibility(true);
-  // };
 
 
   const handleFrequencyChange = (newValue) => {
@@ -78,10 +102,10 @@ const AddTask = () => {
     // Do something with the selected days
     setModalVisible(false);
   };
+
   const handleCancel = () => {
     setSelectedDays([]);
     setModalVisible(false);
-
   }
 
   useEffect(() => {
@@ -106,12 +130,12 @@ const AddTask = () => {
 
       <TextInput
         style={styles.input}
-        placeholder="Task note"
+        placeholder="Task note ( you can write why it is important )"
         editable
         multiline
         numberOfLines={4}
         onChange={(text) => setTaskNote(text)}
-        maxLength={140} />
+        maxLength={200} />
 
 
       <View style={styles.buttonTime}>
@@ -122,7 +146,7 @@ const AddTask = () => {
       <DateTimePickerModal
         isVisible={isTimePickerVisible}
         mode="time"
-        onConfirm={handleConfirm}
+        onConfirm={handleTimeConfirm}
         onCancel={hideTimePicker}
       />
 
