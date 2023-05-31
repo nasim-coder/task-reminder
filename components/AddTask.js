@@ -1,27 +1,43 @@
 import React, { useState, useEffect } from "react";
-import { View,Modal, Text, TouchableOpacity, TextInput, SafeAreaView, Button, ToastAndroid, StyleSheet } from 'react-native';
+import { View, Modal, Text, TouchableOpacity, TextInput, SafeAreaView, Button, ToastAndroid, StyleSheet } from 'react-native';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 // import Checkbox from 'expo-checkbox';
 import { RadioButton, Checkbox } from 'react-native-paper';
 
 const AddTask = () => {
-
   const [time, setTime] = useState(new Date());
-
+  const [date, setDate] = useState(new Date());
   const [task, setTask] = useState('');
   const [taskNote, setTaskNote] = useState('');
+  const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [selectedDays, setSelectedDays] = useState([]);
+  const [frequency, setFrequency] = useState('daily');
 
   const handleSaveReminder = () => {
     // Code to save the reminder
     ToastAndroid.show('Reminder saved!', ToastAndroid.SHORT);
   };
 
-  const handleConfirm = (date) => {
+  const handleConfirm = (time) => {
+    console.log("A date has been picked: ", time);
+    setTime(time)
+    hideTimePicker();
+  };
+
+  const hideTimePicker = () => {
+    setTimePickerVisibility(false);
+  };
+
+  const showTimePicker = () => {
+    setTimePickerVisibility(true);
+  };
+
+  const handleDateConfirm = (date) => {
     console.log("A date has been picked: ", date);
-    setTime(date)
+    setDate(date)
     hideDatePicker();
   };
 
@@ -29,17 +45,16 @@ const AddTask = () => {
     setDatePickerVisibility(false);
   };
 
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
-  };
+  // const showDatePicker = () => {
+  //   setDatePickerVisibility(true);
+  // };
 
-  const [frequency, setFrequency] = useState('daily');
 
   const handleFrequencyChange = (newValue) => {
     setFrequency(newValue);
   };
 
-  const [selectedDays, setSelectedDays] = useState([]);
+
   console.log(selectedDays);
   const daysOfWeek = [
     { id: '1', name: 'Sunday' },
@@ -72,12 +87,15 @@ const AddTask = () => {
   useEffect(() => {
     if (frequency === 'weekly') {
       setModalVisible(true);
-    } else {
+    } else if (frequency==='once') {
+      setDatePickerVisibility(true)
+     } else{
       setModalVisible(false);
     }
   }, [frequency]);
 
-
+  
+  
   return (
     <View style={styles.container}>
       <TextInput style={styles.input}
@@ -97,60 +115,67 @@ const AddTask = () => {
 
 
       <View style={styles.buttonTime}>
-        <Text>{ time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) }</Text>
-        <Button title="Choose time" onPress={showDatePicker} />
+        <Text>{time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</Text>
+        <Button title="Choose time" onPress={showTimePicker} />
       </View>
 
       <DateTimePickerModal
-        isVisible={isDatePickerVisible}
+        isVisible={isTimePickerVisible}
         mode="time"
         onConfirm={handleConfirm}
+        onCancel={hideTimePicker}
+      />
+
+      <DateTimePickerModal
+        isVisible={isDatePickerVisible}
+        mode="date"
+        onConfirm={handleDateConfirm}
         onCancel={hideDatePicker}
       />
 
-    <View style={{ flexDirection: 'row' }}>
-      <RadioButton.Item
-        label="Daily"
-        value="daily"
-        status={frequency === 'daily' ? 'checked' : 'unchecked'}
-        onPress={() => handleFrequencyChange('daily')}
-      />
-      <RadioButton.Item
-        label="Weekly"
-        value="weekly"
-        status={frequency === 'weekly' ? 'checked' : 'unchecked'}
-        onPress={() => handleFrequencyChange('weekly')}
-      />
-      <RadioButton.Item
-        label="Once"
-        value="once"
-        status={frequency === 'once' ? 'checked' : 'unchecked'}
-        onPress={() => handleFrequencyChange('once')}
-      />
+      <View style={{ flexDirection: 'row' }}>
+        <RadioButton.Item
+          label="Daily"
+          value="daily"
+          status={frequency === 'daily' ? 'checked' : 'unchecked'}
+          onPress={() => handleFrequencyChange('daily')}
+        />
+        <RadioButton.Item
+          label="Weekly"
+          value="weekly"
+          status={frequency === 'weekly' ? 'checked' : 'unchecked'}
+          onPress={() => handleFrequencyChange('weekly')}
+        />
+        <RadioButton.Item
+          label="Once"
+          value="once"
+          status={frequency === 'once' ? 'checked' : 'unchecked'}
+          onPress={() => handleFrequencyChange('once')}
+        />
       </View>
 
       <View style={styles.daysContainer}>
-      <Modal visible={modalVisible} animationType="slide">
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            {daysOfWeek.map((day) => (
-              <Checkbox.Item
-                key={day.id}
-                label={day.name}
-                status={selectedDays.includes(day.id) ? 'checked' : 'unchecked'}
-                onPress={() => handleDayToggle(day.id)}
-              />
-            ))}
-              
+        <Modal visible={modalVisible} animationType="slide">
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              {daysOfWeek.map((day) => (
+                <Checkbox.Item
+                  key={day.id}
+                  label={day.name}
+                  status={selectedDays.includes(day.id) ? 'checked' : 'unchecked'}
+                  onPress={() => handleDayToggle(day.id)}
+                />
+              ))}
+
               <View style={styles.buttonContainer}>
-              <Button title='Cancel' onPress={handleCancel} />
-              <Button title='Done' onPress={handleDone} />
+                <Button title='Cancel' onPress={handleCancel} />
+                <Button title='Done' onPress={handleDone} />
               </View>
+            </View>
           </View>
-        </View>
-      </Modal>
-    </View>
-      
+        </Modal>
+      </View>
+
       <View style={styles.saveButtonContainer}>
         <Button title="Save Reminder" onPress={handleSaveReminder} />
       </View>
@@ -169,7 +194,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     padding: 5,
     marginBottom: 5,
-    marginTop:5,
+    marginTop: 5,
   },
   buttonTime: {
     marginTop: 10,
@@ -208,7 +233,7 @@ const styles = StyleSheet.create({
   saveButtonContainer: {
     flex: 1,
     justifyContent: 'flex-end',
-    marginBottom:10
+    marginBottom: 10
   },
 })
 
