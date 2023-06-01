@@ -18,6 +18,7 @@ const Home = ({ navigation }) => {
       </View>
       <View style={styles.button}>
         <Button
+          color="#841584"
           title='Add New Reminder'
           onPress={handleAddReminder}
         />

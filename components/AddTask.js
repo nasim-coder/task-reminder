@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Modal, Text, TouchableOpacity, TextInput, SafeAreaView, Button, ToastAndroid, StyleSheet, Alert } from 'react-native';
+import { View, Modal, Text, TextInput, Button, ToastAndroid, StyleSheet, Alert } from 'react-native';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { saveReminder } from './ReminderService';
 // import Checkbox from 'expo-checkbox';
@@ -140,46 +140,55 @@ const AddTask = () => {
 
       <View style={styles.buttonTime}>
         <Text>{time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</Text>
-        <Button title="Choose time" onPress={showTimePicker} />
+        <Button title="Choose time" color="#841584" onPress={showTimePicker} />
       </View>
 
       <DateTimePickerModal
         isVisible={isTimePickerVisible}
         mode="time"
+        
         onConfirm={handleTimeConfirm}
         onCancel={hideTimePicker}
+        confirmTextStyle={{ color: 'red' }} // Change the confirm button text color
+        cancelTextStyle={{ color: 'blue' }} // Change the cancel button text color
       />
 
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
         mode="date"
+        
         onConfirm={handleDateConfirm}
         onCancel={hideDatePicker}
+        confirmTextStyle={{ color: 'red' }} // Change the confirm button text color
+        cancelTextStyle={{ color: 'blue' }} // Change the cancel button text color
       />
 
       <View style={{ flexDirection: 'row' }}>
         <RadioButton.Item
           label="Daily"
           value="daily"
+          color="#841584"
           status={frequency === 'daily' ? 'checked' : 'unchecked'}
           onPress={() => handleFrequencyChange('daily')}
         />
         <RadioButton.Item
           label="Weekly"
           value="weekly"
+          color="#841584"
           status={frequency === 'weekly' ? 'checked' : 'unchecked'}
           onPress={() => handleFrequencyChange('weekly')}
         />
         <RadioButton.Item
           label="Once"
           value="once"
+          color="#841584"
           status={frequency === 'once' ? 'checked' : 'unchecked'}
           onPress={() => handleFrequencyChange('once')}
         />
       </View>
 
       <View style={styles.daysContainer}>
-        <Modal visible={modalVisible} animationType="slide">
+        <Modal visible={modalVisible} animationType="fade"  transparent={true}>
           <View style={styles.modalContainer}>
             <View style={styles.modalContent}>
               {daysOfWeek.map((day) => (
@@ -192,8 +201,8 @@ const AddTask = () => {
               ))}
 
               <View style={styles.buttonContainer}>
-                <Button title='Cancel' onPress={handleCancel} />
-                <Button title='Done' onPress={handleDone} />
+                <Button title='Cancel' color="#841584" onPress={handleCancel} />
+                <Button title='Done' color="#841584" onPress={handleDone} />
               </View>
             </View>
           </View>
@@ -201,7 +210,7 @@ const AddTask = () => {
       </View>
 
       <View style={styles.saveButtonContainer}>
-        <Button title="Save Reminder" onPress={handleSaveReminder} />
+        <Button title="Save Reminder" color="#841584" onPress={handleSaveReminder} />
       </View>
 
     </View>
