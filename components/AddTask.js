@@ -149,8 +149,8 @@ const AddTask = () => {
         
         onConfirm={handleTimeConfirm}
         onCancel={hideTimePicker}
-        confirmTextStyle={{ color: 'red' }} // Change the confirm button text color
-        cancelTextStyle={{ color: 'blue' }} // Change the cancel button text color
+        // negativeButton={{ label: 'Cancel', textColor: 'red' }}
+        // positiveButton={{ label: 'Done', textColor: '#841584' }} 
       />
 
       <DateTimePickerModal
@@ -159,8 +159,8 @@ const AddTask = () => {
         
         onConfirm={handleDateConfirm}
         onCancel={hideDatePicker}
-        confirmTextStyle={{ color: 'red' }} // Change the confirm button text color
-        cancelTextStyle={{ color: 'blue' }} // Change the cancel button text color
+        // negativeButton={{ label: 'Cancel', textColor: 'red' }}
+        // positiveButton={{label: 'Done', textColor: '#841584'}} 
       />
 
       <View style={{ flexDirection: 'row' }}>
@@ -201,7 +201,7 @@ const AddTask = () => {
               ))}
 
               <View style={styles.buttonContainer}>
-                <Button title='Cancel' color="#841584" onPress={handleCancel} />
+                <Button title='Cancel' color="red" onPress={handleCancel} />
                 <Button title='Done' color="#841584" onPress={handleDone} />
               </View>
             </View>
