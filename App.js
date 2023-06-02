@@ -12,7 +12,7 @@ const Stack = createStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator initialRouteName="Home" >
         <Stack.Screen name="Home" component={Home} options={{
           title: 'Task Reminder',
           headerStyle: { backgroundColor: '#388E3C' },// Set your desired background color

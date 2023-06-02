@@ -203,6 +203,7 @@ const AddTask = () => {
                 <Checkbox.Item
                   key={day.id}
                   label={day.name}
+                  color="#9C1D9E"
                   status={selectedDays.includes(day.id) ? 'checked' : 'unchecked'}
                   onPress={() => handleDayToggle(day.id)}
                 />
