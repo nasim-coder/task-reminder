@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { View, Modal, Text, TextInput, Button, ToastAndroid, StyleSheet, Alert } from 'react-native';
+import { View, Modal, Text, Button, ToastAndroid, StyleSheet, Alert } from 'react-native';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { saveReminder } from './ReminderService';
 // import Checkbox from 'expo-checkbox';
-import { RadioButton, Checkbox } from 'react-native-paper';
+import { RadioButton, Checkbox, TextInput, } from 'react-native-paper';
 
 const AddTask = () => {
 
-  const [time, setTime] = useState(new Date());
+  const [time, setTime] = useState('Choose time');
   const [isTimeSelectedByUser, setIsTimeSelectedByUser] = useState(false);
   const [date, setDate] = useState(new Date());
   const [task, setTask] = useState('');
@@ -126,21 +126,29 @@ const AddTask = () => {
         placeholder="Enter Task to do"
         onChangeText={newText => setTask(newText)}
         maxLength={100}
+        mode='outlined'
+        selectionColor='#9C1D9E'
+        activeOutlineColor='#9C1D9E'
+        outlineColor='#9C1D9E'
         defaultValue={''} />
 
       <TextInput
         style={styles.input}
-        placeholder="Task note ( you can write why it is important )"
+        placeholder="Task note ( optional )"
         editable
         multiline
+        mode='outlined'
+        selectionColor='#9C1D9E'
+        outlineColor='#9C1D9E'
+        activeOutlineColor='#9C1D9E'
         numberOfLines={4}
         onChange={(text) => setTaskNote(text)}
         maxLength={200} />
 
 
       <View style={styles.buttonTime}>
-        <Text>{time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</Text>
-        <Button title="Choose time" color="#841584" onPress={showTimePicker} />
+        {/* <Text>{time?.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</Text> */}
+        <Button title={time?.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })} color="#9C1D9E" onPress={showTimePicker} />
       </View>
 
       <DateTimePickerModal
@@ -167,21 +175,21 @@ const AddTask = () => {
         <RadioButton.Item
           label="Daily"
           value="daily"
-          color="#841584"
+          color="#9C1D9E"
           status={frequency === 'daily' ? 'checked' : 'unchecked'}
           onPress={() => handleFrequencyChange('daily')}
         />
         <RadioButton.Item
           label="Weekly"
           value="weekly"
-          color="#841584"
+          color="#9C1D9E"
           status={frequency === 'weekly' ? 'checked' : 'unchecked'}
           onPress={() => handleFrequencyChange('weekly')}
         />
         <RadioButton.Item
           label="Once"
           value="once"
-          color="#841584"
+          color="#9C1D9E"
           status={frequency === 'once' ? 'checked' : 'unchecked'}
           onPress={() => handleFrequencyChange('once')}
         />
@@ -201,8 +209,8 @@ const AddTask = () => {
               ))}
 
               <View style={styles.buttonContainer}>
-                <Button title='Cancel' color="red" onPress={handleCancel} />
-                <Button title='Done' color="#841584" onPress={handleDone} />
+                <Button title='Cancel' color="#9C1D9E" onPress={handleCancel} />
+                <Button title='Done' color="#9C1D9E" onPress={handleDone} />
               </View>
             </View>
           </View>
@@ -210,7 +218,7 @@ const AddTask = () => {
       </View>
 
       <View style={styles.saveButtonContainer}>
-        <Button title="Save Reminder" color="#841584" onPress={handleSaveReminder} />
+        <Button title="Save Reminder" color="#9C1D9E" onPress={handleSaveReminder} />
       </View>
 
     </View>
@@ -220,26 +228,20 @@ const AddTask = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    padding: 10,
+    backgroundColor: '#DAB6EA'
   },
   input: {
-    borderWidth: 1,
-    borderColor: 'black',
-    padding: 5,
-    marginBottom: 5,
     marginTop: 5,
+    marginBottom:10
   },
   buttonTime: {
     marginTop: 10,
     marginBottom: 10,
-    marginHorizontal: 70,
-    flexDirection: 'row',
-    justifyContent: "space-around",
-    alignItems: 'center',
   },
+
   daysContainer: {
     flex: 1,
-
   },
   modalContainer: {
     flex: 1,
@@ -255,18 +257,18 @@ const styles = StyleSheet.create({
   modalContent: {
     width: '80%', // Adjust the width as needed
     backgroundColor: 'white',
-    padding: 16,
+    padding: 10,
     borderRadius: 8,
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginTop: 16,
+    marginTop: 10,
   },
   saveButtonContainer: {
     flex: 1,
     justifyContent: 'flex-end',
-    marginBottom: 10
+    marginBottom:10
   },
 })
 

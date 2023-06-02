@@ -6,33 +6,46 @@ import CheckBox from '@react-native-community/checkbox';
 const Task = (props) => {
     return (
         <View style={styles.taskContainer}>
-            <Text style={styles.taskItem}>{props.task.taskTitle}</Text>
-            <Text style={styles.taskItem}>{props.task.description}</Text>
-            <Text>{props.task.time}</Text>
-            <TouchableOpacity style={styles.taskItem}>
-                <AntDesign name="edit" size={24} color="#0557a8" />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.taskItem}>
-                <AntDesign name="delete" size={24} color="#0557a8" />
-            </TouchableOpacity>
+
+            <Text style={styles.task} numberOfLines={2}>
+                {props.task.taskTitle}
+            </Text>
+            <Text style={styles.time}>
+                {props.task.time.toLocaleString('en-US', {
+                    hour: 'numeric',
+                    minute: 'numeric',
+                    hour12: true,
+                })}
+            </Text>
+
+
         </View>
-    )
-}
+    );
+};
+
+
 
 const styles = StyleSheet.create({
     taskContainer: {
-        marginTop: 5,
-        marginBottom:5,
+        marginBottom: 10,
         flexDirection: 'row',
-        borderColor: 'black',
+        borderColor: '#9C1D9E',
+        borderRadius: 5,
         borderWidth: 1,
-        padding: 10,
-        backgroundColor: '#88b9eb',
+        padding: 15,
+        backgroundColor: 'white',
+        alignItems: 'center',
         justifyContent: 'space-between',
     },
-    taskItem: {
-        marginHorizontal:2,
-    }
-})
+    
+    task: {
+        
+    },
+    
+    time: {
+        fontSize: 14,
+        fontWeight: 'bold',
+    },
+});
 
 export default Task;

@@ -9,19 +9,15 @@ const Home = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style = {styles.taskWrapper}>
+      
       <Text style={styles.title}>Scheduled Tasks :</Text>
         <View style={styles.items}>
-          <Task task={{taskTitle:'hello', description:'lorem ipsum', time: Date.now()}} />
-          <Task task={{taskTitle:'hello', description:'lorem ipsum', time: Date.now()}} />
+          <Task task={{taskTitle:'lorem ipsum dolor sit amet titularlorem ipsum dolor sit amet titular', time: new Date()}} />
+          <Task task={{taskTitle:'hello', description:'lorem ipsum', time: new Date()}} />
         </View>
-      </View>
-      <View style={styles.button}>
-        <Button
-          color="#841584"
-          title='Add New Reminder'
-          onPress={handleAddReminder}
-        />
+    
+      <View style={styles.newReminderButtonContainer}>
+        <Button color="#9C1D9E" title='New Reminder' onPress={handleAddReminder} />
       </View>
     </View>
   );
@@ -43,8 +39,8 @@ async function retrieveTaskData() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: '#a2b2c2',
-    padding:16
+    backgroundColor: '#DAB6EA',
+    padding:10
   },
 
   title: {
@@ -56,10 +52,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 
-  taskWrapper: {
-    paddingTop: 15,
-  },
-  button: {
+  
+  newReminderButtonContainer: {
     flex: 1,
     justifyContent: 'flex-end',
     marginBottom:10
