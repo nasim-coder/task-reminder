@@ -1,8 +1,5 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button } from 'react-native';
-import { useState } from 'react';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Task from './components/Task';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -15,7 +12,7 @@ const Stack = createStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={Home} options={{
           title: 'Task Reminder',
           headerStyle: { backgroundColor: '#388E3C' },// Set your desired background color
@@ -23,7 +20,6 @@ export default function App() {
           headerTitleStyle: {
             color: 'white'
           },
-          // headerTintColor: 'white'
         }} />
 
         <Stack.Screen name="AddTask" component={AddTask} options={{

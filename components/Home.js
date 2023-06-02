@@ -1,21 +1,23 @@
 import React from 'react';
-import { View, Button, StyleSheet, Text } from 'react-native';
+import { View, Button, StyleSheet, Text, ScrollView } from 'react-native';
 import Task from './Task';
-const Home = ({ navigation }) => {
 
+const Home = ({ navigation }) => {
   const handleAddReminder = () => {
     navigation.navigate('AddTask');
   };
 
   return (
     <View style={styles.container}>
-      
       <Text style={styles.title}>Scheduled Tasks :</Text>
-        <View style={styles.items}>
-          <Task task={{taskTitle:'lorem ipsum dolor sit amet titularlorem ipsum dolor sit amet titular', time: new Date()}} />
-          <Task task={{taskTitle:'hello', description:'lorem ipsum', time: new Date()}} />
-        </View>
-    
+      <ScrollView contentContainerStyle={styles.contentContainer}>
+        
+          <Task task={{ taskTitle: 'lorem ipsum dolor sit amet titularlorem ipsum dolor sit amet titular', time: new Date() }} />
+          <Task task={{ taskTitle: 'hello', description: 'lorem ipsum', time: new Date() }} />
+          
+        
+      </ScrollView>
+      
       <View style={styles.newReminderButtonContainer}>
         <Button color="#9C1D9E" title='New Reminder' onPress={handleAddReminder} />
       </View>
@@ -23,40 +25,24 @@ const Home = ({ navigation }) => {
   );
 }
 
-async function saveTaskData(taskData) {
-  try {
-    await AsyncStorage.setItem('taskData', JSON.stringify(taskData));
-  } catch (e) {
-    console.error(e);
-  }
-}
-
-async function retrieveTaskData() {
-  const taskData = await AsyncStorage.getItem('taskData');
-  return JSON.parse(taskData);
-}
-
+// Styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#DAB6EA',
-    padding:10
+    padding: 10,
   },
-
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold'
-  },
-
-  items: {
+  contentContainer: {
+    flexGrow: 1,
     marginTop: 10,
   },
-
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
   
   newReminderButtonContainer: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    marginBottom:10
+    marginBottom: 10,
   },
 });
 
