@@ -9,7 +9,7 @@ export const saveReminder = (reminder) => {
     }
 
     if (reminder?.frequency === 'once' && !reminder.date) {
-        throw new Error('Please select date');
+        throw new Error('Please choose date');
     }
 
     if (reminder.task == '') {
