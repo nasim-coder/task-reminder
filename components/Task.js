@@ -4,13 +4,14 @@ import { AntDesign } from '@expo/vector-icons';
 import CheckBox from '@react-native-community/checkbox';
 
 const Task = (props) => {
+    let time = new Date(props.task.time)
     return (
         <View style={styles.taskContainer}>
             <Text style={styles.task} numberOfLines={3} >
-                {props.task.taskTitle}
+                {props.task.task}
             </Text>
             <Text style={styles.time} >
-                {props.task.time.toLocaleString('en-US', {
+                {time.toLocaleString('en-US', {
                     hour: 'numeric',
                     minute: 'numeric',
                     hour12: true,

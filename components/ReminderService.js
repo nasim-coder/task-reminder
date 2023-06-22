@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export const saveReminder = (reminder) => {
     // console.log(reminder);
     if (reminder?.frequency === 'weekly' && reminder?.selectedDays?.length === 0) {
-        console.log('savereminder', reminder);
+        // console.log('savereminder', reminder);
         throw new Error('Please select days');
     }
 
@@ -18,7 +18,7 @@ export const saveReminder = (reminder) => {
 
   
   try {
-      console.log(1, 'calling save data function');
+      // console.log(1, 'calling save data function');
        saveTaskData(reminder);
       return true;
     } catch (err) {
@@ -32,7 +32,7 @@ export const saveReminder = (reminder) => {
 export async function saveTaskData(taskData) {
   try {
     let savedTasks = await retrieveTaskData();
-    console.log(savedTasks);
+    // console.log(savedTasks);
     if (savedTasks) {
       savedTasks.push(taskData); // Add the taskData to the savedTasks array
       await AsyncStorage.setItem('savedTasks', JSON.stringify(savedTasks));
