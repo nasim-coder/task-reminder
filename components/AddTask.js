@@ -5,7 +5,7 @@ import { saveReminder } from './ReminderService';
 // import Checkbox from 'expo-checkbox';
 import { RadioButton, Checkbox, TextInput, } from 'react-native-paper';
 
-const AddTask = () => {
+const AddTask = ({navigation}) => {
 
   const [time, setTime] = useState('Choose time');
   const [isTimeSelectedByUser, setIsTimeSelectedByUser] = useState(false);
@@ -38,6 +38,7 @@ const AddTask = () => {
       }else if (isTimeSelectedByUser) {
         const saved = saveReminder(newTask);
         ToastAndroid.show('Reminder saved Successfully!', ToastAndroid.LONG);
+        navigation.navigate('Home');
       } else {
         Alert.alert('COULD NOT BE SAVED','something went wrong',[ {text: 'OK'}], {cancelable: false});
       }
@@ -142,7 +143,7 @@ const AddTask = () => {
         outlineColor='#9C1D9E'
         activeOutlineColor='#9C1D9E'
         numberOfLines={4}
-        onChange={(text) => setTaskNote(text)}
+        onChangeText={newText => setTaskNote(newText)}
         maxLength={200} />
 
 
