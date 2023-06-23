@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useFocusEffect, useIsFocused } from '@react-navigation/native';
-import { View, Button, StyleSheet, Text, ScrollView, Alert } from 'react-native';
+import { View, Button, StyleSheet, Text, ScrollView, Alert, TouchableOpacity } from 'react-native';
 import Task from './Task';
 import { retrieveTaskData } from './ReminderService'; // Import the retrieveTaskData function
 
@@ -24,7 +24,7 @@ const Home = ({ navigation }) => {
   }, []);
 
   const retrieveData = async () => {
-    console.log('retriev called');
+    // console.log('retriev called');
     try {
       const data = await retrieveTaskData(); // Retrieve the task data
       setTaskData(data); // Set the retrieved task data in state
@@ -33,19 +33,50 @@ const Home = ({ navigation }) => {
     }
   };
 
+  const handleTaskLongPress = (task) => {
+    // Show contextual menu options (delete, edit)
+    Alert.alert(
+      'Please choose action',
+      null,
+      [
+        { text: 'Edit', onPress: () => editTask(task) },
+        { text: 'Delete', onPress: () => deleteTask(task) },
+        { text: 'Cancel', style: 'cancel' },
+      ],
+      {
+        cancelable: true,
+        containerStyle: { justifyContent: 'center' },
+      }
+    );
+  };
+
+  const deleteTask = (task) => {
+    // Implement task deletion logic here
+    // You can use AsyncStorage or any other storage mechanism to remove the task from the savedTasks array
+    // After deleting the task, you may need to update the taskData state to reflect the changes
+  };
+
+  const editTask = (task) => {
+    // Implement task editing logic here
+    // You can navigate to the task editing screen and pass the task data as a parameter
+    navigation.navigate('EditTask', { task });
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Scheduled Tasks :</Text>
       <ScrollView contentContainerStyle={styles.contentContainer}>
         
-        
-          
         {
           taskData !== null && taskData.map((task) => (
-          <Task key={task.id} task={task} /> // Render Task component for each task object in taskData
+            <TouchableOpacity
+              key={task.id}
+              onLongPress={() => handleTaskLongPress(task)}
+            >
+              <Task task={task} />
+            </TouchableOpacity>
           ))
         }
-          
         
       </ScrollView>
       
