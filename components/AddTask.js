@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { CommonActions } from '@react-navigation/native';
 import { View, Modal, Text, Button, ToastAndroid, StyleSheet, Alert } from 'react-native';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { saveReminder } from './ReminderService';
@@ -30,15 +31,18 @@ const AddTask = ({navigation}) => {
 }
 
 
-  const handleSaveReminder = () => {
+  const handleSaveReminder = async () => {
     try {
       
       if (!isTimeSelectedByUser) {
         Alert.alert('COULD NOT BE SAVED','Please select time',[ {text: 'OK'}], {cancelable: false});
       }else if (isTimeSelectedByUser) {
-        const saved = saveReminder(newTask);
+        const saved = await saveReminder(newTask);
+        console.log(saved);
         ToastAndroid.show('Reminder saved Successfully!', ToastAndroid.LONG);
-        navigation.navigate('Home');
+        // navigation.navigate('Home');
+        navigation.goBack();
+        
       } else {
         Alert.alert('COULD NOT BE SAVED','something went wrong',[ {text: 'OK'}], {cancelable: false});
       }
