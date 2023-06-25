@@ -60,7 +60,7 @@ export const deleteById = async (id) => {
     }
     return true;
   } catch (err) {
-    throw new Error(err.message)
+    throw new Error(err)
   }
 
 }

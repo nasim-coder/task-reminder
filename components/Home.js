@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useFocusEffect, useIsFocused } from '@react-navigation/native';
-import { View, Button, StyleSheet, Text, ScrollView, Alert, TouchableOpacity } from 'react-native';
+import { View, Button, StyleSheet, Text, ScrollView, Alert, TouchableOpacity, ToastAndroid } from 'react-native';
 import Task from './Task';
-import { retrieveTaskData } from './ReminderService'; // Import the retrieveTaskData function
+import { retrieveTaskData, deleteById } from './ReminderService'; // Import the retrieveTaskData function
 
 const Home = ({ navigation }) => {
   const [taskData, setTaskData] = useState(null);
@@ -50,10 +50,16 @@ const Home = ({ navigation }) => {
     );
   };
 
-  const deleteTask = (task) => {
-    // Implement task deletion logic here
-    // You can use AsyncStorage or any other storage mechanism to remove the task from the savedTasks array
-    // After deleting the task, you may need to update the taskData state to reflect the changes
+  const deleteTask = async (task) => {
+    try {
+      const deleted = await deleteById(task.id);
+    if (deleted) {
+      ToastAndroid.show('Reminder deleted Successfully!', ToastAndroid.LONG);
+      await retrieveData()
+    }
+    } catch (err) {
+      ToastAndroid.show(err, ToastAndroid.LONG);
+    }
   };
 
   const editTask = (task) => {
