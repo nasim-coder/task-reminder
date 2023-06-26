@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 import { View, Button, StyleSheet, Text, ScrollView, Alert, TouchableOpacity, ToastAndroid } from 'react-native';
 import Task from './Task';
-import { retrieveTaskData, deleteById } from './ReminderService'; // Import the retrieveTaskData function
+import { retrieveTaskData, deleteById } from './StorageService'; // Import the retrieveTaskData function
 
 const Home = ({ navigation }) => {
   const [taskData, setTaskData] = useState(null);

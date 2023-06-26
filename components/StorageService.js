@@ -1,6 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
 export const saveReminder = async (reminder) => {
   // console.log(reminder);
   if (reminder?.frequency === 'weekly' && reminder?.selectedDays?.length === 0) {
@@ -24,7 +23,6 @@ export const saveReminder = async (reminder) => {
     throw new Error(err)
   }
 }
-
 
 export async function saveTaskData(taskData) {
   try {
@@ -64,3 +62,4 @@ export const deleteById = async (id) => {
   }
 
 }
+

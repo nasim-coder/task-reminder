@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { CommonActions } from '@react-navigation/native';
 import { View, Modal, Text, Button, ToastAndroid, StyleSheet, Alert } from 'react-native';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { saveReminder } from './ReminderService';
+import { saveReminder } from './StorageService';
 // import Checkbox from 'expo-checkbox';
 import { RadioButton, Checkbox, TextInput, } from 'react-native-paper';
 
