@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { scheduleNotification } from './NotificationService';
 export const saveReminder = async (reminder) => {
   // console.log(reminder);
   if (reminder?.frequency === 'weekly' && reminder?.selectedDays?.length === 0) {
@@ -27,13 +27,15 @@ export const saveReminder = async (reminder) => {
 export async function saveTaskData(taskData) {
   try {
     let savedTasks = await retrieveTaskData();
-    // console.log(savedTasks);
+    const notificationId = await scheduleNotification(taskData)
+    taskData.notificationId = notificationId;
     if (savedTasks) {
       savedTasks.push(taskData); // Add the taskData to the savedTasks array
       await AsyncStorage.setItem('savedTasks', JSON.stringify(savedTasks));
     } else {
       await AsyncStorage.setItem('savedTasks', JSON.stringify([taskData]));
     }
+    
     return true;
   } catch (e) {
     throw new Error(e);

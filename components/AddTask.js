@@ -86,13 +86,13 @@ const AddTask = ({navigation}) => {
 
   console.log(selectedDays);
   const daysOfWeek = [
-    { id: '1', name: 'Sunday' },
-    { id: '2', name: 'Monday' },
-    { id: '3', name: 'Tuesday' },
-    { id: '4', name: 'Wednesday' },
-    { id: '5', name: 'Thursday' },
-    { id: '6', name: 'Friday' },
-    { id: '7', name: 'Saturday' },
+    { id: '0', name: 'Sunday' },
+    { id: '1', name: 'Monday' },
+    { id: '2', name: 'Tuesday' },
+    { id: '3', name: 'Wednesday' },
+    { id: '4', name: 'Thursday' },
+    { id: '5', name: 'Friday' },
+    { id: '6', name: 'Saturday' },
   ];
 
   const handleDayToggle = (day) => {
@@ -209,8 +209,8 @@ const AddTask = ({navigation}) => {
                   key={day.id}
                   label={day.name}
                   color="#9C1D9E"
-                  status={selectedDays.includes(day.id) ? 'checked' : 'unchecked'}
-                  onPress={() => handleDayToggle(day.id)}
+                  status={selectedDays.includes(parseInt(day.id)) ? 'checked' : 'unchecked'}
+                  onPress={() => handleDayToggle(parseInt(day.id))}
                 />
               ))}
 

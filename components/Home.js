@@ -6,7 +6,7 @@ import { retrieveTaskData, deleteById } from './StorageService'; // Import the r
 
 const Home = ({ navigation }) => {
   const [taskData, setTaskData] = useState(null);
-
+console.log('taskData', taskData);
   const handleAddReminder = () => {
     navigation.navigate('AddTask');
   };
