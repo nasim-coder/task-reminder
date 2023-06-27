@@ -22,33 +22,41 @@ export const registerForPushNotificationsAsync = async () => {
 
 // Function to schedule a daily notification
 const scheduleDailyNotification = async (taskTitle, taskNote, hours, minutes) => {
-    return await Notifications.scheduleNotificationAsync({
-        content: {
-            title: taskTitle,
-            body: taskNote,
-        },
-        trigger: {
-            hour: hours, // Set the hour for the daily notification
-            minute: minutes, // Set the minute for the daily notification
-            repeats: true, // Set the notification to repeat daily
-        },
-    });
+    try {
+        return await Notifications.scheduleNotificationAsync({
+            content: {
+                title: taskTitle,
+                body: taskNote,
+            },
+            trigger: {
+                hour: hours, // Set the hour for the daily notification
+                minute: minutes, // Set the minute for the daily notification
+                repeats: true, // Set the notification to repeat daily
+            },
+        });
+    } catch (err) {
+        throw new Error(err)
+    }
 };
 
 // Function to schedule a weekly notification
 const scheduleWeeklyNotification = (taskTitle, taskNote, hours, minutes, dayArr) => {
-    return Notifications.scheduleNotificationAsync({
-        content: {
-            title: taskTitle,
-            body: taskNote,
-        },
-        trigger: {
-            weekdays: dayArr, // Set the weekday for the weekly notification (0 for Sunday, 1 for Monday, and so on)
-            hour: hours, // Set the hour for the weekly notification
-            minute: minutes, // Set the minute for the weekly notification
-            repeats: true, // Set the notification to repeat weekly
-        },
-    });
+    try {
+        return Notifications.scheduleNotificationAsync({
+            content: {
+                title: taskTitle,
+                body: taskNote,
+            },
+            trigger: {
+                weekdays: dayArr, // Set the weekday for the weekly notification (0 for Sunday, 1 for Monday, and so on)
+                hour: hours, // Set the hour for the weekly notification
+                minute: minutes, // Set the minute for the weekly notification
+                repeats: true, // Set the notification to repeat weekly
+            },
+        });
+    } catch (err) {
+        throw new Error(err)
+    }
 };
 
 export const scheduleNotification = async (task) => {
@@ -82,3 +90,17 @@ export const scheduleNotification = async (task) => {
     }
 }
 
+// Delete a scheduled notification
+export const deleteScheduledNotification = async (notificationId) => {
+    console.log('notificationId', notificationId);
+    try {
+      if (notificationId) {
+        await Notifications.cancelScheduledNotificationAsync(notificationId);
+        console.log(`Canceled notification with ID: ${notificationId}`);
+      } else {
+        console.log('Notification ID not found');
+      }
+    } catch (err) {
+      throw new Error(err)
+    }
+  };

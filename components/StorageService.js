@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { scheduleNotification } from './NotificationService';
+import { scheduleNotification, deleteScheduledNotification } from './NotificationService';
 export const saveReminder = async (reminder) => {
   // console.log(reminder);
   if (reminder?.frequency === 'weekly' && reminder?.selectedDays?.length === 0) {
@@ -54,9 +54,22 @@ export async function retrieveTaskData() {
 export const deleteById = async (id) => {
   try {
     let tasks = await retrieveTaskData();
-    const savedTasks = tasks.filter((task) => task.id !== id);
-    if (savedTasks) {
-      await AsyncStorage.setItem('savedTasks', JSON.stringify(savedTasks));
+    // get the notificationId of the task
+    let todDeleteNotificationId;
+    tasks.forEach(elem => {
+      if (elem.id === id) {
+        todDeleteNotificationId = elem.notificationId;
+      }
+    });
+
+    // cancel notification
+    await deleteScheduledNotification(todDeleteNotificationId);
+
+    // remove task from the array
+    const remainingTasks = tasks.filter((task) => task.id !== id);
+    // save remaining tasks
+    if (remainingTasks) {
+      await AsyncStorage.setItem('savedTasks', JSON.stringify(remainingTasks));
     }
     return true;
   } catch (err) {
