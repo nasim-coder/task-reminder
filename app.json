@@ -1,8 +1,22 @@
 {
   "expo": {
-    "name": "task-reminder",
+    "name": "Task Reminder",
     "slug": "task-reminder",
     "version": "1.0.0",
+    "permissions": {
+      "notifications": {
+        "ios": {
+          "allowAlert": true,
+          "allowBadge": true,
+          "allowSound": true
+        },
+        "android": {
+          "permissions": ["NOTIFICATIONS"],
+          "priority": "max",
+          "vibrate": true
+        }
+      }
+    },
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
