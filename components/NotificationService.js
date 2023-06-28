@@ -29,7 +29,7 @@ const scheduleDailyNotification = async (taskTitle, taskNote, hours, minutes) =>
 };
 
 // Function to schedule a weekly notification
-const scheduleWeeklyNotification = async (taskTitle, taskNote, hours, minutes, dayArr) => {
+const scheduleWeeklyNotification = async (taskTitle, taskNote, hours, minutes, day) => {
   try {
     // console.log('dayArr', typeof dayArr, dayArr, Array.isArray(dayArr));
     await Notifications.scheduleNotificationAsync({
@@ -38,7 +38,7 @@ const scheduleWeeklyNotification = async (taskTitle, taskNote, hours, minutes, d
         body: taskNote,
       },
       trigger: {
-        weekday: dayArr.map(Number),
+        weekday: day,
         hour: hours,
         minute: minutes,
         repeats: true,
@@ -62,7 +62,7 @@ export const scheduleNotification = async (task) => {
 
   try {
     // Repeat daily
-    if (task.selectedDays.length === 7 || task.frequency === 'daily') {
+    if ( task.frequency === 'daily') {
       await scheduleDailyNotification(task.task, task.taskNote, hours, minutes);
     }
 

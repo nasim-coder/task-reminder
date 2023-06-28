@@ -5,9 +5,9 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { saveReminder } from './StorageService';
 // import Checkbox from 'expo-checkbox';
 import { RadioButton, Checkbox, TextInput, } from 'react-native-paper';
-
+import DayPicker from './DayPicker';
 const AddTask = ({navigation}) => {
-
+  
   const [time, setTime] = useState('Choose time');
   const [isTimeSelectedByUser, setIsTimeSelectedByUser] = useState(false);
   const [date, setDate] = useState(new Date());
@@ -15,7 +15,8 @@ const AddTask = ({navigation}) => {
   const [taskNote, setTaskNote] = useState('');
   const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
+  // const [modalVisible, setModalVisible] = useState(false);
+  const [showdays, setShowdays] = useState(false)
   const [selectedDays, setSelectedDays] = useState([]);
   const [frequency, setFrequency] = useState('daily');
 
@@ -85,41 +86,50 @@ const AddTask = ({navigation}) => {
 
 
   // console.log(selectedDays);
-  const daysOfWeek = [
-    { id: '0', name: 'Sunday' },
-    { id: '1', name: 'Monday' },
-    { id: '2', name: 'Tuesday' },
-    { id: '3', name: 'Wednesday' },
-    { id: '4', name: 'Thursday' },
-    { id: '5', name: 'Friday' },
-    { id: '6', name: 'Saturday' },
-  ];
+  // const daysOfWeek = [
+  //   { id: '0', name: 'Sunday' },
+  //   { id: '1', name: 'Monday' },
+  //   { id: '2', name: 'Tuesday' },
+  //   { id: '3', name: 'Wednesday' },
+  //   { id: '4', name: 'Thursday' },
+  //   { id: '5', name: 'Friday' },
+  //   { id: '6', name: 'Saturday' },
+  // ];
 
-  const handleDayToggle = (day) => {
-    if (selectedDays.includes(day)) {
-      setSelectedDays(selectedDays.filter((d) => d !== day));
-    } else {
-      setSelectedDays([...selectedDays, day]);
-    }
-  };
+  // const handleDayToggle = (day) => {
+  //   if (selectedDays.includes(day)) {
+  //     setSelectedDays(selectedDays.filter((d) => d !== day));
+  //   } else {
+  //     setSelectedDays([...selectedDays, day]);
+  //   }
+  // };
 
-  const handleDone = () => {
-    // Do something with the selected days
-    setModalVisible(false);
-  };
+  // const handleDone = () => {
+  //   // Do something with the selected days
+  //   setModalVisible(false);
+  // };
 
-  const handleCancel = () => {
-    setSelectedDays([]);
-    setModalVisible(false);
-  }
+  // const handleCancel = () => {
+  //   setSelectedDays([]);
+  //   setModalVisible(false);
+  // }
+
+  
+  const handleDaySelect = (day) => {
+    const days = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+    const index = days.indexOf(day)+1;
+      setSelectedDays(index)
+    };
+  
 
   useEffect(() => {
     if (frequency === 'weekly') {
-      setModalVisible(true);
+      setShowdays(true)
     } else if (frequency==='once') {
       setDatePickerVisibility(true)
+      setShowdays(false)
      } else{
-      setModalVisible(false);
+      setShowdays(false)
     }
   }, [frequency]);
 
@@ -152,7 +162,6 @@ const AddTask = ({navigation}) => {
 
 
       <View style={styles.buttonTime}>
-        {/* <Text>{time?.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</Text> */}
         <Button title={time?.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })} color="#9C1D9E" onPress={showTimePicker} />
       </View>
 
@@ -162,18 +171,13 @@ const AddTask = ({navigation}) => {
         
         onConfirm={handleTimeConfirm}
         onCancel={hideTimePicker}
-        // negativeButton={{ label: 'Cancel', textColor: 'red' }}
-        // positiveButton={{ label: 'Done', textColor: '#841584' }} 
       />
 
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
         mode="date"
-        
         onConfirm={handleDateConfirm}
         onCancel={hideDatePicker}
-        // negativeButton={{ label: 'Cancel', textColor: 'red' }}
-        // positiveButton={{label: 'Done', textColor: '#841584'}} 
       />
 
       <View style={{ flexDirection: 'row' }}>
@@ -200,29 +204,8 @@ const AddTask = ({navigation}) => {
         />
       </View>
 
-      <View style={styles.daysContainer}>
-        <Modal visible={modalVisible} animationType="fade"  transparent={true}>
-          <View style={styles.modalContainer}>
-            <View style={styles.modalContent}>
-              {daysOfWeek.map((day) => (
-                <Checkbox.Item
-                  key={day.id}
-                  label={day.name}
-                  color="#9C1D9E"
-                  status={selectedDays.includes(parseInt(day.id)) ? 'checked' : 'unchecked'}
-                  onPress={() => handleDayToggle(parseInt(day.id))}
-                />
-              ))}
-
-              <View style={styles.buttonContainer}>
-                <Button title='Cancel' color="#9C1D9E" onPress={handleCancel} />
-                <Button title='Done' color="#9C1D9E" onPress={handleDone} />
-              </View>
-            </View>
-          </View>
-        </Modal>
-      </View>
-
+      <DayPicker onSelect={handleDaySelect} visible={showdays} />
+      
       <View style={styles.saveButtonContainer}>
         <Button title="Save Reminder" color="#9C1D9E" onPress={handleSaveReminder} />
       </View>
@@ -261,7 +244,7 @@ const styles = StyleSheet.create({
     right: 0,
   },
   modalContent: {
-    width: '80%', // Adjust the width as needed
+    width: '80%',
     backgroundColor: 'white',
     padding: 10,
     borderRadius: 8,

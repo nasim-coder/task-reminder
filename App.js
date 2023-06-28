@@ -14,7 +14,7 @@ export default function App() {
       <Stack.Navigator initialRouteName="Home" >
         <Stack.Screen name="Home" component={Home} options={{
           title: 'Task Reminder',
-          headerStyle: { backgroundColor: '#388E3C' },// Set your desired background color
+          headerStyle: { backgroundColor: '#9C1D9E' },// Set your desired background color
           headerTitleAlign: 'center',
           headerTitleStyle: {
             color: 'white'
@@ -23,7 +23,7 @@ export default function App() {
 
         <Stack.Screen name="AddTask" component={AddTask} options={{
           title: 'Add New Task',
-          headerStyle: { backgroundColor: '#388E3C' },// Set your desired background color
+          headerStyle: { backgroundColor: '#9C1D9E' },// Set your desired background color
           headerTitleAlign: 'center',
           headerTitleStyle: {
             color: 'white'

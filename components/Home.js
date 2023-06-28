@@ -36,12 +36,12 @@ const Home = ({ navigation }) => {
   const handleTaskLongPress = (task) => {
     // Show contextual menu options (delete, edit)
     Alert.alert(
-      'Please choose action',
+      'Want to delete it?',
       null,
       [
-        { text: 'Edit', onPress: () => editTask(task) },
-        { text: 'Delete', onPress: () => deleteTask(task) },
+        // { text: 'Edit', onPress: () => editTask(task) },
         { text: 'Cancel', style: 'cancel' },
+        { text: 'Delete', onPress: () => deleteTask(task) },
       ],
       {
         cancelable: true,
@@ -60,12 +60,6 @@ const Home = ({ navigation }) => {
     } catch (err) {
       ToastAndroid.show(err, ToastAndroid.LONG);
     }
-  };
-
-  const editTask = (task) => {
-    // Implement task editing logic here
-    // You can navigate to the task editing screen and pass the task data as a parameter
-    navigation.navigate('EditTask', { task });
   };
 
   return (
