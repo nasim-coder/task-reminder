@@ -1,4 +1,4 @@
-import { Platform } from 'react-native';
+// import { Platform } from 'react-native';
 import * as Notifications from 'expo-notifications';
 
 Notifications.setNotificationHandler({
@@ -31,17 +31,19 @@ const scheduleDailyNotification = async (taskTitle, taskNote, hours, minutes) =>
 // Function to schedule a weekly notification
 const scheduleWeeklyNotification = async (taskTitle, taskNote, hours, minutes, dayArr) => {
   try {
+    // console.log('dayArr', typeof dayArr, dayArr, Array.isArray(dayArr));
     await Notifications.scheduleNotificationAsync({
       content: {
         title: taskTitle,
         body: taskNote,
       },
       trigger: {
-        weekday: dayArr,
+        weekday: dayArr.map(Number),
         hour: hours,
         minute: minutes,
         repeats: true,
       },
+      
     });
   } catch (err) {
     throw new Error(err);
@@ -79,7 +81,8 @@ export const scheduleNotification = async (task) => {
         trigger: {
           date: time,
         },
-      });
+      },
+      );
     }
   } catch (err) {
     throw new Error(err);
@@ -97,12 +100,12 @@ export const deleteScheduledNotification = async (notificationId) => {
 
       if (scheduledNotification) {
         await Notifications.cancelScheduledNotificationAsync(notificationId);
-        console.log(`Canceled notification with ID: ${notificationId}`);
+        // console.log(`Canceled notification with ID: ${notificationId}`);
       } else {
-        console.log('Notification ID not found');
+        // console.log('Notification ID not found');
       }
     } else {
-      console.log('Invalid notification ID');
+      // console.log('Invalid notification ID');
     }
   } catch (err) {
     throw new Error(err);

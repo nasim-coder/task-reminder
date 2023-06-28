@@ -3,43 +3,29 @@
     "name": "Task Reminder",
     "slug": "task-reminder",
     "version": "1.0.0",
-    "permissions": {
-      "notifications": {
-        "ios": {
-          "allowAlert": true,
-          "allowBadge": true,
-          "allowSound": true
-        },
-        "android": {
-          "permissions": ["NOTIFICATIONS"],
-          "priority": "max",
-          "vibrate": true
-        }
+    "platforms": ["ios", "android"],
+    "android": {
+      "permissions": ["NOTIFICATIONS"],
+      "package": "com.nasimak.taskreminder"
+    },
+    "ios": {
+      "bundleIdentifier": "com.nasimak.taskreminder",
+      "infoPlist": {
+        "UIBackgroundModes": ["remote-notification"]
       }
     },
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+    "assetBundlePatterns": ["**/*"],
+    "extra": {
+      "eas": {
+        "projectId": "4d2ab53e-8a89-417c-84e7-c11aeb5922ba"
       }
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
     }
   }
 }

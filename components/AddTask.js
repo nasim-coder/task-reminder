@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { CommonActions } from '@react-navigation/native';
+// import { CommonActions } from '@react-navigation/native';
 import { View, Modal, Text, Button, ToastAndroid, StyleSheet, Alert } from 'react-native';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { saveReminder } from './StorageService';
@@ -38,7 +38,7 @@ const AddTask = ({navigation}) => {
         Alert.alert('COULD NOT BE SAVED','Please select time',[ {text: 'OK'}], {cancelable: false});
       }else if (isTimeSelectedByUser) {
         const saved = await saveReminder(newTask);
-        console.log(saved);
+        // console.log(saved);
         ToastAndroid.show('Reminder saved Successfully!', ToastAndroid.LONG);
         // navigation.navigate('Home');
         navigation.goBack();
@@ -48,13 +48,13 @@ const AddTask = ({navigation}) => {
       }
       
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       Alert.alert('COULD NOT BE SAVED', err.message, [ {text: 'OK'}], {cancelable: false});
     }
   };
 
   const handleTimeConfirm = (time) => {
-    console.log("A date has been picked: ", time);
+    // console.log("A date has been picked: ", time);
     setIsTimeSelectedByUser(true);
     setTime(time);
     hideTimePicker();
@@ -69,7 +69,7 @@ const AddTask = ({navigation}) => {
   };
 
   const handleDateConfirm = (date) => {
-    console.log("A date has been picked: ", date);
+    // console.log("A date has been picked: ", date);
     setDate(date)
     hideDatePicker();
   };
@@ -84,7 +84,7 @@ const AddTask = ({navigation}) => {
   };
 
 
-  console.log(selectedDays);
+  // console.log(selectedDays);
   const daysOfWeek = [
     { id: '0', name: 'Sunday' },
     { id: '1', name: 'Monday' },

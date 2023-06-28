@@ -1,7 +1,5 @@
 import React from 'react';
 import { View, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
-import CheckBox from '@react-native-community/checkbox';
 
 const Task = (props) => {
     let time = new Date(props.task.time)
