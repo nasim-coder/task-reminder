@@ -1,5 +1,7 @@
+/* eslint-disable no-use-before-define */
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { scheduleNotification, deleteScheduledNotification } from './NotificationService';
+
 export const saveReminder = async (reminder) => {
   // console.log(reminder);
   if (reminder?.frequency === 'weekly' && reminder?.selectedDays?.length === 0) {
@@ -11,7 +13,7 @@ export const saveReminder = async (reminder) => {
     throw new Error('Please choose date');
   }
 
-  if (reminder.task == '') {
+  if (reminder.task === '') {
     throw new Error('Please enter task to do');
   }
 
@@ -20,14 +22,15 @@ export const saveReminder = async (reminder) => {
     await saveTaskData(reminder);
     return true;
   } catch (err) {
-    throw new Error(err)
+    throw new Error(err);
   }
-}
+};
 
 export async function saveTaskData(taskData) {
   try {
-    let savedTasks = await retrieveTaskData();
-    const notificationId = await scheduleNotification(taskData)
+    const savedTasks = await retrieveTaskData();
+    const notificationId = await scheduleNotification(taskData);
+    // eslint-disable-next-line no-param-reassign
     taskData.notificationId = notificationId;
     if (savedTasks) {
       savedTasks.push(taskData); // Add the taskData to the savedTasks array
@@ -35,28 +38,26 @@ export async function saveTaskData(taskData) {
     } else {
       await AsyncStorage.setItem('savedTasks', JSON.stringify([taskData]));
     }
-    
     return true;
   } catch (e) {
     throw new Error(e);
   }
 }
 
-
 export async function retrieveTaskData() {
   try {
     return JSON.parse(await AsyncStorage.getItem('savedTasks'));
   } catch (err) {
-    throw new Error(err)
+    throw new Error(err);
   }
 }
 
 export const deleteById = async (id) => {
   try {
-    let tasks = await retrieveTaskData();
+    const tasks = await retrieveTaskData();
     // get the notificationId of the task
     let todDeleteNotificationId;
-    tasks.forEach(elem => {
+    tasks.forEach((elem) => {
       if (elem.id === id) {
         todDeleteNotificationId = elem.notificationId;
       }
@@ -73,8 +74,6 @@ export const deleteById = async (id) => {
     }
     return true;
   } catch (err) {
-    throw new Error(err)
+    throw new Error(err);
   }
-
-}
-
+};

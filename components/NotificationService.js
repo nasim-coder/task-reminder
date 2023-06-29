@@ -43,7 +43,6 @@ const scheduleWeeklyNotification = async (taskTitle, taskNote, hours, minutes, d
         minute: minutes,
         repeats: true,
       },
-      
     });
   } catch (err) {
     throw new Error(err);
@@ -51,10 +50,10 @@ const scheduleWeeklyNotification = async (taskTitle, taskNote, hours, minutes, d
 };
 
 export const scheduleNotification = async (task) => {
-  let time = new Date(task.time);
-  let date = new Date(task.date);
-  let hours = time.getHours();
-  let minutes = time.getMinutes();
+  const time = new Date(task.time);
+  const date = new Date(task.date);
+  const hours = time.getHours();
+  const minutes = time.getMinutes();
   // Set the year, month, and day from the date
   time.setFullYear(date.getFullYear());
   time.setMonth(date.getMonth());
@@ -62,7 +61,7 @@ export const scheduleNotification = async (task) => {
 
   try {
     // Repeat daily
-    if ( task.frequency === 'daily') {
+    if (task.frequency === 'daily') {
       await scheduleDailyNotification(task.task, task.taskNote, hours, minutes);
     }
 
@@ -81,8 +80,7 @@ export const scheduleNotification = async (task) => {
         trigger: {
           date: time,
         },
-      },
-      );
+      });
     }
   } catch (err) {
     throw new Error(err);
@@ -95,7 +93,7 @@ export const deleteScheduledNotification = async (notificationId) => {
     if (notificationId) {
       const isScheduled = await Notifications.getScheduledNotificationsAsync();
       const scheduledNotification = isScheduled.find(
-        (notification) => notification.identifier === notificationId
+        (notification) => notification.identifier === notificationId,
       );
 
       if (scheduledNotification) {
@@ -111,4 +109,3 @@ export const deleteScheduledNotification = async (notificationId) => {
     throw new Error(err);
   }
 };
-
