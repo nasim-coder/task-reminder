@@ -1,13 +1,11 @@
 /* eslint-disable no-use-before-define */
 import React, { useState, useEffect } from 'react';
-// import { CommonActions } from '@react-navigation/native';
 import {
   View, Button, ToastAndroid, StyleSheet, Alert,
 } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { RadioButton, TextInput } from 'react-native-paper';
 import { saveReminder } from './StorageService';
-// import Checkbox from 'expo-checkbox';
 import DayPicker from './DayPicker';
 
 // eslint-disable-next-line react/prop-types
@@ -19,7 +17,6 @@ function AddTask({ navigation }) {
   const [taskNote, setTaskNote] = useState('');
   const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  // const [modalVisible, setModalVisible] = useState(false);
   const [showdays, setShowdays] = useState(false);
   const [selectedDays, setSelectedDays] = useState([]);
   const [frequency, setFrequency] = useState('daily');
@@ -40,22 +37,18 @@ function AddTask({ navigation }) {
         Alert.alert('COULD NOT BE SAVED', 'Please select time', [{ text: 'OK' }], { cancelable: false });
       } else if (isTimeSelectedByUser) {
         await saveReminder(newTask);
-        // console.log(saved);
         ToastAndroid.show('Reminder saved Successfully!', ToastAndroid.LONG);
-        // navigation.navigate('Home');
         // eslint-disable-next-line react/prop-types
         navigation.goBack();
       } else {
         Alert.alert('COULD NOT BE SAVED', 'something went wrong', [{ text: 'OK' }], { cancelable: false });
       }
     } catch (err) {
-      // console.log(err);
       Alert.alert('COULD NOT BE SAVED', err.message, [{ text: 'OK' }], { cancelable: false });
     }
   };
 
   const handleTimeConfirm = (timee) => {
-    // console.log("A date has been picked: ", time);
     setIsTimeSelectedByUser(true);
     setTime(timee);
     // eslint-disable-next-line no-use-before-define

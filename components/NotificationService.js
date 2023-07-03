@@ -60,6 +60,11 @@ export const scheduleNotification = async (task) => {
   time.setDate(date.getDate());
 
   try {
+    // ask for notification permission if not provided
+    // eslint-disable-next-line no-use-before-define
+    if (!isPermitted()) {
+      throw new Error('Notification permission denied');
+    }
     // Repeat daily
     if (task.frequency === 'daily') {
       await scheduleDailyNotification(task.task, task.taskNote, hours, minutes);
@@ -109,3 +114,17 @@ export const deleteScheduledNotification = async (notificationId) => {
     throw new Error(err);
   }
 };
+
+async function isPermitted() {
+  const { status: existingStatus } = await Notifications.getPermissionsAsync();
+  let finalStatus = existingStatus;
+
+  if (existingStatus !== 'granted') {
+    const { status } = await Notifications.requestPermissionsAsync();
+    finalStatus = status;
+  }
+  if (finalStatus !== 'granted') {
+    return false;
+  }
+  return true;
+}
