@@ -12,7 +12,7 @@ Notifications.setNotificationHandler({
 // Function to schedule a daily notification
 const scheduleDailyNotification = async (taskTitle, taskNote, hours, minutes) => {
   try {
-    await Notifications.scheduleNotificationAsync({
+    const notificationId = await Notifications.scheduleNotificationAsync({
       content: {
         title: taskTitle,
         body: taskNote,
@@ -23,6 +23,7 @@ const scheduleDailyNotification = async (taskTitle, taskNote, hours, minutes) =>
         repeats: true,
       },
     });
+    return notificationId;
   } catch (err) {
     throw new Error(err);
   }
@@ -32,7 +33,7 @@ const scheduleDailyNotification = async (taskTitle, taskNote, hours, minutes) =>
 const scheduleWeeklyNotification = async (taskTitle, taskNote, hours, minutes, day) => {
   try {
     // console.log('dayArr', typeof dayArr, dayArr, Array.isArray(dayArr));
-    await Notifications.scheduleNotificationAsync({
+    const notificationId = await Notifications.scheduleNotificationAsync({
       content: {
         title: taskTitle,
         body: taskNote,
@@ -44,6 +45,7 @@ const scheduleWeeklyNotification = async (taskTitle, taskNote, hours, minutes, d
         repeats: true,
       },
     });
+    return notificationId;
   } catch (err) {
     throw new Error(err);
   }
@@ -58,7 +60,7 @@ export const scheduleNotification = async (task) => {
   time.setFullYear(date.getFullYear());
   time.setMonth(date.getMonth());
   time.setDate(date.getDate());
-
+  let notificationId;
   try {
     // ask for notification permission if not provided
     // eslint-disable-next-line no-use-before-define
@@ -67,17 +69,17 @@ export const scheduleNotification = async (task) => {
     }
     // Repeat daily
     if (task.frequency === 'daily') {
-      await scheduleDailyNotification(task.task, task.taskNote, hours, minutes);
+      notificationId = await scheduleDailyNotification(task.task, task.taskNote, hours, minutes);
     }
 
     // Repeat weekly
     if (task.frequency === 'weekly') {
-      await scheduleWeeklyNotification(task.task, task.taskNote, hours, minutes, task.selectedDays);
+      notificationId = await scheduleWeeklyNotification(task.task, task.taskNote, hours, minutes, task.selectedDays);
     }
 
     // Notify once
     if (task.frequency === 'once') {
-      await Notifications.scheduleNotificationAsync({
+      notificationId = await Notifications.scheduleNotificationAsync({
         content: {
           title: task.task,
           body: task.taskNote,
@@ -87,6 +89,7 @@ export const scheduleNotification = async (task) => {
         },
       });
     }
+    return notificationId;
   } catch (err) {
     throw new Error(err);
   }
@@ -94,28 +97,34 @@ export const scheduleNotification = async (task) => {
 
 // Delete a scheduled notification
 export const deleteScheduledNotification = async (notificationId) => {
+  console.log('notificationId', notificationId);
   try {
     if (notificationId) {
-      const isScheduled = await Notifications.getScheduledNotificationsAsync();
+      console.log('reached here');
+      const isScheduled = await Notifications.getAllScheduledNotificationsAsync();
+      console.log('isScheduled', isScheduled);
       const scheduledNotification = isScheduled.find(
         (notification) => notification.identifier === notificationId,
       );
-
+        console.log('scheduledNotification', scheduledNotification);
       if (scheduledNotification) {
         await Notifications.cancelScheduledNotificationAsync(notificationId);
-        // console.log(`Canceled notification with ID: ${notificationId}`);
+        console.log(`Canceled notification with ID: ${notificationId}`);
       } else {
-        // console.log('Notification ID not found');
+        console.log('Notification ID not found');
       }
     } else {
-      // console.log('Invalid notification ID');
+      console.log('Invalid notification ID');
     }
+    return true;
   } catch (err) {
+    console.log(err);
     throw new Error(err);
   }
 };
 
 async function isPermitted() {
+  try {
   const { status: existingStatus } = await Notifications.getPermissionsAsync();
   let finalStatus = existingStatus;
 
@@ -126,5 +135,9 @@ async function isPermitted() {
   if (finalStatus !== 'granted') {
     return false;
   }
-  return true;
+    return true;
+  } catch (err) {
+    console.log(err);
+    throw new Error(err)
+  }
 }
