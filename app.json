@@ -3,15 +3,22 @@
     "name": "Task Reminder",
     "slug": "task-reminder",
     "version": "1.0.0",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "android": {
-      "permissions": ["NOTIFICATIONS"],
+      "permissions": [
+        "NOTIFICATIONS"
+      ],
       "package": "com.nasimak.taskreminder"
     },
     "ios": {
       "bundleIdentifier": "com.nasimak.taskreminder",
       "infoPlist": {
-        "UIBackgroundModes": ["remote-notification"]
+        "UIBackgroundModes": [
+          "remote-notification"
+        ]
       }
     },
     "orientation": "portrait",
@@ -21,7 +28,10 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "owner": "nasimak",
     "extra": {
       "eas": {
         "projectId": "4d2ab53e-8a89-417c-84e7-c11aeb5922ba"

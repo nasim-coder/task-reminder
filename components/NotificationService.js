@@ -106,7 +106,7 @@ export const deleteScheduledNotification = async (notificationId) => {
       const scheduledNotification = isScheduled.find(
         (notification) => notification.identifier === notificationId,
       );
-        console.log('scheduledNotification', scheduledNotification);
+      console.log('scheduledNotification', scheduledNotification);
       if (scheduledNotification) {
         await Notifications.cancelScheduledNotificationAsync(notificationId);
         console.log(`Canceled notification with ID: ${notificationId}`);
@@ -125,19 +125,19 @@ export const deleteScheduledNotification = async (notificationId) => {
 
 async function isPermitted() {
   try {
-  const { status: existingStatus } = await Notifications.getPermissionsAsync();
-  let finalStatus = existingStatus;
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
 
-  if (existingStatus !== 'granted') {
-    const { status } = await Notifications.requestPermissionsAsync();
-    finalStatus = status;
-  }
-  if (finalStatus !== 'granted') {
-    return false;
-  }
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      return false;
+    }
     return true;
   } catch (err) {
     console.log(err);
-    throw new Error(err)
+    throw new Error(err);
   }
 }
