@@ -2,8 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import { useIsFocused } from '@react-navigation/native';
 import {
-  View, Button, StyleSheet, Text, ScrollView, Alert, TouchableOpacity, ToastAndroid,
+  View, StyleSheet, Text, ScrollView, Alert, TouchableOpacity, ToastAndroid,
 } from 'react-native';
+import { FAB } from 'react-native-paper';
 import Task from './Task';
 import { retrieveTaskData, deleteById } from './StorageService'; // Import the retrieveTaskData function
 
@@ -86,10 +87,16 @@ function Home({ navigation }) {
         }
 
       </ScrollView>
-
-      <View style={styles.newReminderButtonContainer}>
+      <FAB
+        icon="plus"
+        // label='Save'
+        color="white"
+        style={styles.fab}
+        onPress={handleAddReminder}
+      />
+      {/* <View style={styles.newReminderButtonContainer}>
         <Button color="#9C1D9E" title="New Reminder" onPress={handleAddReminder} />
-      </View>
+      </View> */}
     </View>
   );
 }
@@ -110,8 +117,16 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
-  newReminderButtonContainer: {
-    marginBottom: 10,
+  // newReminderButtonContainer: {
+  //   marginBottom: 10,
+  // },
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 35,
+    bottom: 35,
+    backgroundColor: '#9C1D9E',
+    borderRadius: 50, // Set the borderRadius to half the width/height to make it round
   },
 });
 

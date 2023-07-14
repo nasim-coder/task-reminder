@@ -4,7 +4,7 @@ import {
   View, Button, ToastAndroid, StyleSheet, Alert,
 } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import { RadioButton, TextInput } from 'react-native-paper';
+import { RadioButton, TextInput, FAB } from 'react-native-paper';
 import { saveReminder } from './StorageService';
 import DayPicker from './DayPicker';
 
@@ -168,9 +168,16 @@ function AddTask({ navigation }) {
 
       <DayPicker onSelect={handleDaySelect} visible={showdays} />
 
-      <View style={styles.saveButtonContainer}>
+      <FAB
+        // icon="plus"
+        label="SAVE"
+        color="white"
+        style={styles.fab}
+        onPress={handleSaveReminder}
+      />
+      {/* <View style={styles.saveButtonContainer}>
         <Button title="Save Reminder" color="#9C1D9E" onPress={handleSaveReminder} />
-      </View>
+      </View> */}
 
     </View>
   );
@@ -220,6 +227,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     marginBottom: 10,
+  },
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 35,
+    bottom: 35,
+    backgroundColor: '#9C1D9E',
+    borderRadius: 50, // Set the borderRadius to half the width/height to make it round
   },
 });
 
