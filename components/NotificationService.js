@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // import { Platform } from 'react-native';
 import * as Notifications from 'expo-notifications';
 
@@ -74,6 +75,7 @@ export const scheduleNotification = async (task) => {
 
     // Repeat weekly
     if (task.frequency === 'weekly') {
+      // eslint-disable-next-line max-len
       notificationId = await scheduleWeeklyNotification(task.task, task.taskNote, hours, minutes, task.selectedDays);
     }
 
