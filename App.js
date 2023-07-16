@@ -2,22 +2,27 @@
 /* eslint-disable react/react-in-jsx-scope */
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-import Home from './components/Home';
 import AddTask from './components/AddTask';
+import TabView from './components/TabView';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
+
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator
+        initialRouteName="TabView"
+        screenOptions={{
+          headerStyle: { backgroundColor: '#9C1D9E' },
+          headerShadowVisible: false,
+        }}
+      >
         <Stack.Screen
-          name="Home"
-          component={Home}
+          name="TabView"
+          component={TabView}
           options={{
             title: 'Task Reminder',
-            headerStyle: { backgroundColor: '#9C1D9E' }, // Set your desired background color
             headerTitleAlign: 'center',
             headerTitleStyle: {
               color: 'white',
@@ -30,7 +35,6 @@ export default function App() {
           component={AddTask}
           options={{
             title: 'Add New Task',
-            headerStyle: { backgroundColor: '#9C1D9E' }, // Set your desired background color
             headerTitleAlign: 'center',
             headerTitleStyle: {
               color: 'white',
@@ -41,5 +45,6 @@ export default function App() {
         />
       </Stack.Navigator>
     </NavigationContainer>
+
   );
 }
