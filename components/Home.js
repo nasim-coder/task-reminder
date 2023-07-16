@@ -1,15 +1,16 @@
 /* eslint-disable no-use-before-define */
 import React, { useState, useEffect } from 'react';
-import { useIsFocused } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import {
-  View, StyleSheet, Text, ScrollView, Alert, TouchableOpacity, ToastAndroid,
+  View, StyleSheet, ScrollView, Alert, TouchableOpacity, ToastAndroid,
 } from 'react-native';
 import { FAB } from 'react-native-paper';
 import Task from './Task';
 import { retrieveTaskData, deleteById } from './StorageService'; // Import the retrieveTaskData function
 
 // eslint-disable-next-line react/prop-types
-function Home({ navigation }) {
+function Home({ frequencyData }) {
+  const navigation = useNavigation();
   const [taskData, setTaskData] = useState(null);
   // console.log('taskData', taskData);
   const handleAddReminder = () => {
@@ -72,11 +73,11 @@ function Home({ navigation }) {
   return (
     // eslint-disable-next-line react/jsx-filename-extension
     <View style={styles.container}>
-      <Text style={styles.title}>Scheduled Tasks :</Text>
       <ScrollView contentContainerStyle={styles.contentContainer}>
 
         {
-          taskData !== null && taskData.map((task) => (
+          // eslint-disable-next-line max-len
+          taskData !== null && taskData.filter((task) => task.frequency === frequencyData).map((task) => (
             <TouchableOpacity
               key={task.id}
               onLongPress={() => handleTaskLongPress(task)}
