@@ -36,6 +36,14 @@
       "eas": {
         "projectId": "4d2ab53e-8a89-417c-84e7-c11aeb5922ba"
       }
-    }
+    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "sounds": ["./assets/ringtone.wav"]
+        }
+      ]
+    ]
   }
 }
