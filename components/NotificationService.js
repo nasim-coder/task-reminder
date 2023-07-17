@@ -11,17 +11,29 @@ Notifications.setNotificationHandler({
 });
 
 // Function to schedule a daily notification
-const scheduleDailyNotification = async (taskTitle, taskNote, hours, minutes) => {
+const scheduleDailyNotification = async (taskTitle, taskNote, hours, minutes, id) => {
   try {
+    // create channel
+    const channelId = id.toString(); // Use the task ID as the channel ID
+    await Notifications.setNotificationChannelAsync(channelId, {
+      name: 'Daily Notification Channel',
+      importance: Notifications.AndroidImportance.HIGH,
+      sound: 'ringtone.wav', // Replace with the appropriate sound file
+      vibrationPattern: [0, 250, 250, 250], // Define a vibration pattern if desired
+    });
+    // scheduling daily notification
     const notificationId = await Notifications.scheduleNotificationAsync({
       content: {
         title: taskTitle,
         body: taskNote,
+        sound: 'ringtone.wav',
+        vibrate: [0, 250, 250, 250],
       },
       trigger: {
         hour: hours,
         minute: minutes,
         repeats: true,
+        channelId,
       },
     });
     return notificationId;
@@ -70,7 +82,8 @@ export const scheduleNotification = async (task) => {
     }
     // Repeat daily
     if (task.frequency === 'daily') {
-      notificationId = await scheduleDailyNotification(task.task, task.taskNote, hours, minutes);
+      // eslint-disable-next-line max-len
+      notificationId = await scheduleDailyNotification(task.task, task.taskNote, hours, minutes, task.id);
     }
 
     // Repeat weekly
