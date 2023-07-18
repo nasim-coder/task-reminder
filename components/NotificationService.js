@@ -183,6 +183,8 @@ async function getOrCreateNotificationChannel(channelId) {
       importance: Notifications.AndroidImportance.HIGH,
       sound: 'ringtone.wav', // Replace with the appropriate sound file
       vibrationPattern: [0, 250, 250, 250], // Define a vibration pattern if desired
+      enableLights: true,
+      lockscreenVisibility: 1,
     });
     return channelId;
   } catch (err) {
