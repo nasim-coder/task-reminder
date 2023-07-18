@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define */
 import React, { useState, useEffect } from 'react';
 import {
-  View, Button, ToastAndroid, StyleSheet, Alert,
+  View, Button, ToastAndroid, StyleSheet, Alert, StatusBar,
 } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { RadioButton, TextInput, FAB } from 'react-native-paper';
@@ -96,8 +96,10 @@ function AddTask({ navigation }) {
   }, [frequency]);
 
   return (
+
     // eslint-disable-next-line react/jsx-filename-extension, no-use-before-define
     <View style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor="#9C1D9E" />
       <TextInput
         style={styles.input}
         placeholder="Enter Task to do"

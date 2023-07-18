@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import {
-  View, StyleSheet, ScrollView, Alert, TouchableOpacity, ToastAndroid,
+  View, StyleSheet, ScrollView, Alert, TouchableOpacity, ToastAndroid, StatusBar,
 } from 'react-native';
 import { FAB } from 'react-native-paper';
 import Task from './Task';
@@ -73,6 +73,7 @@ function Home({ frequencyData }) {
   return (
     // eslint-disable-next-line react/jsx-filename-extension
     <View style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor="#9C1D9E" />
       <ScrollView contentContainerStyle={styles.contentContainer}>
 
         {
