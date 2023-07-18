@@ -11,16 +11,10 @@ Notifications.setNotificationHandler({
 });
 
 // Function to schedule a daily notification
-const scheduleDailyNotification = async (taskTitle, taskNote, hours, minutes, id) => {
+const scheduleDailyNotification = async (taskTitle, taskNote, hours, minutes) => {
   try {
     // create channel
-    const channelId = id.toString(); // Use the task ID as the channel ID
-    await Notifications.setNotificationChannelAsync(channelId, {
-      name: 'Daily Notification Channel',
-      importance: Notifications.AndroidImportance.HIGH,
-      sound: 'ringtone.wav', // Replace with the appropriate sound file
-      vibrationPattern: [0, 250, 250, 250], // Define a vibration pattern if desired
-    });
+    const channelId = await getOrCreateNotificationChannel('dailyNotificationChannelId');
     // scheduling daily notification
     const notificationId = await Notifications.scheduleNotificationAsync({
       content: {
@@ -45,17 +39,21 @@ const scheduleDailyNotification = async (taskTitle, taskNote, hours, minutes, id
 // Function to schedule a weekly notification
 const scheduleWeeklyNotification = async (taskTitle, taskNote, hours, minutes, day) => {
   try {
+    const channelId = await getOrCreateNotificationChannel('weeklyNotificationChannelId');
     // console.log('dayArr', typeof dayArr, dayArr, Array.isArray(dayArr));
     const notificationId = await Notifications.scheduleNotificationAsync({
       content: {
         title: taskTitle,
         body: taskNote,
+        sound: 'ringtone.wav',
+        vibrate: [0, 250, 250, 250],
       },
       trigger: {
         weekday: day,
         hour: hours,
         minute: minutes,
         repeats: true,
+        channelId,
       },
     });
     return notificationId;
@@ -83,7 +81,7 @@ export const scheduleNotification = async (task) => {
     // Repeat daily
     if (task.frequency === 'daily') {
       // eslint-disable-next-line max-len
-      notificationId = await scheduleDailyNotification(task.task, task.taskNote, hours, minutes, task.id);
+      notificationId = await scheduleDailyNotification(task.task, task.taskNote, hours, minutes);
     }
 
     // Repeat weekly
@@ -94,13 +92,17 @@ export const scheduleNotification = async (task) => {
 
     // Notify once
     if (task.frequency === 'once') {
+      const channelId = await getOrCreateNotificationChannel('onceNotificationChannelId');
       notificationId = await Notifications.scheduleNotificationAsync({
         content: {
           title: task.task,
           body: task.taskNote,
+          sound: 'ringtone.wav',
+          vibrate: [0, 250, 250, 250],
         },
         trigger: {
           date: time,
+          channelId,
         },
       });
     }
@@ -153,6 +155,37 @@ async function isPermitted() {
     return true;
   } catch (err) {
     console.log(err);
+    throw new Error(err);
+  }
+}
+
+async function getOrCreateNotificationChannel(channelId) {
+  try {
+    // const channelId = id.toString(); // Use the task ID as the channel ID
+    let ChannelName;
+    if (channelId === 'dailyNotificationChannelId') {
+      ChannelName = 'Daily Notification';
+    } else if (channelId === 'weeklyNotificationChannelId') {
+      ChannelName = 'Weekly Notification';
+    } else if (channelId === 'onceNotificationChannelId') {
+      ChannelName = 'Once Notification';
+    }
+
+    const existingChannel = await Notifications.getNotificationChannelAsync(channelId);
+    console.log('existingChannel', existingChannel);
+    // if channel already exist return channel id
+    if (existingChannel) {
+      return channelId;
+    }
+    // if channel does not exist create new channel and return channel Id
+    await Notifications.setNotificationChannelAsync(channelId, {
+      name: ChannelName,
+      importance: Notifications.AndroidImportance.HIGH,
+      sound: 'ringtone.wav', // Replace with the appropriate sound file
+      vibrationPattern: [0, 250, 250, 250], // Define a vibration pattern if desired
+    });
+    return channelId;
+  } catch (err) {
     throw new Error(err);
   }
 }
