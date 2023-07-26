@@ -14,6 +14,7 @@ Notifications.setNotificationHandler({
 const scheduleDailyNotification = async (taskTitle, taskNote, hours, minutes) => {
   try {
     // create channel
+    // eslint-disable-next-line no-use-before-define
     const channelId = await getOrCreateNotificationChannel('dailyNotificationChannelId');
     // scheduling daily notification
     const notificationId = await Notifications.scheduleNotificationAsync({
@@ -39,6 +40,7 @@ const scheduleDailyNotification = async (taskTitle, taskNote, hours, minutes) =>
 // Function to schedule a weekly notification
 const scheduleWeeklyNotification = async (taskTitle, taskNote, hours, minutes, day) => {
   try {
+    // eslint-disable-next-line no-use-before-define
     const channelId = await getOrCreateNotificationChannel('weeklyNotificationChannelId');
     // console.log('dayArr', typeof dayArr, dayArr, Array.isArray(dayArr));
     const notificationId = await Notifications.scheduleNotificationAsync({
@@ -92,6 +94,7 @@ export const scheduleNotification = async (task) => {
 
     // Notify once
     if (task.frequency === 'once') {
+      // eslint-disable-next-line no-use-before-define
       const channelId = await getOrCreateNotificationChannel('onceNotificationChannelId');
       notificationId = await Notifications.scheduleNotificationAsync({
         content: {
